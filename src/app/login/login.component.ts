@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,9 +12,10 @@ export class LoginComponent {
 
   constructor(private formBuilder: FormBuilder) {
     this.loginForm=this.formBuilder.group({
-      username: ['',Validators.required,Validators.minLength(6)],
-      password: ['',Validators.required,Validators.minLength(8)]
+      username: ['',Validators.compose([Validators.required,Validators.minLength(6)])],
+      password: ['',Validators.compose([Validators.required,Validators.minLength(8)])]
     });
+
   }
 
   onSubmit(){
