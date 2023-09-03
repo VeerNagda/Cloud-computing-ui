@@ -1,0 +1,28 @@
+<!-- supplier-material-relation.component.html -->
+<div class="container">
+  <h2>Supplier Material Relation</h2>
+  <form [formGroup]="supplierMaterialRelationForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="materialId">Material ID:</label>
+      <input type="text" id="materialId" formControlName="materialId">
+      <div *ngIf="supplierMaterialRelationForm.get('materialId')?.hasError('required')">
+        Material Id is required.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="supplierName">Supplier Name:</label>
+      <input type="text" id="supplierName" formControlName="supplierName">
+      <div *ngIf="supplierMaterialRelationForm.get('supplierName')?.hasError('required')">
+        Supplier name is required.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="rate">Rate:</label>
+      <input type="text" id="rate" formControlName="rate">
+      <div *ngIf="supplierMaterialRelationForm.get('rate')?.hasError('required')">
+        Enter rate
+      </div>
+    </div>
+    <button type="submit" [disabled]="!supplierMaterialRelationForm.valid">Submit</button>
+  </form>
+</div>
