@@ -14,22 +14,21 @@ interface Supplier{
   styleUrls: ['./supplier.component.css']
 })
 export class SupplierComponent {
-  supplierForm:FormGroup;
+  supplierForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
     this.supplierForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      address: ['', Validators.required],
-      contactNumber: ['', Validators.required],
-      gst: ['', Validators.required]
+      name: ['', Validators.compose([Validators.required])],
+      address: ['', Validators.compose([Validators.required])],
+      contactNumber: ['', Validators.compose([Validators.required, Validators.maxLength(10), Validators.minLength(10)])],
+      gst: ['', Validators.compose([Validators.required])],
     });
   }
+
   onSubmit() {
     if (this.supplierForm.valid) {
-      const formData: Supplier = this.supplierForm.value;
+      const formData = this.supplierForm.value;
       console.log(formData);
-
-      // Here, you can save the supplier data, send it to an API, etc.
     }
   }
 }
