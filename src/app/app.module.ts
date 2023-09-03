@@ -11,6 +11,8 @@ import { MaterialComponent } from './material/material.component';
 import { PartComponent } from './part/part.component';
 import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
 import { SupplierMaterialRelationComponent } from './supplier-material-relation/supplier-material-relation.component';
+import {TableModule} from "primeng/table";
+import {ButtonModule} from "primeng/button";
 
 @NgModule({
   declarations: [
@@ -24,10 +26,12 @@ import { SupplierMaterialRelationComponent } from './supplier-material-relation/
     PurchaseOrderComponent,
     SupplierMaterialRelationComponent
   ],
-    imports: [
-        BrowserModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BrowserModule,
+    ReactiveFormsModule,
+    TableModule,
+    ButtonModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

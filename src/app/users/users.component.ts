@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {FormBuilder,FormGroup,Validators} from "@angular/forms";
-
+import { TableModule } from 'primeng/table';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -8,6 +8,9 @@ import {FormBuilder,FormGroup,Validators} from "@angular/forms";
 })
 export class UsersComponent {
   usersForm:FormGroup;
+  products: any;
+  cols: any;
+  users: any;
 
   constructor(private formBuilder: FormBuilder) {
     this.usersForm = this.formBuilder.group({
