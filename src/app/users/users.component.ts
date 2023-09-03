@@ -8,9 +8,7 @@ import { TableModule } from 'primeng/table';
 })
 export class UsersComponent {
   usersForm:FormGroup;
-  products: any;
-  cols: any;
-  users: any;
+
 
   constructor(private formBuilder: FormBuilder) {
     this.usersForm = this.formBuilder.group({
