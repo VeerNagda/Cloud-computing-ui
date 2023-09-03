@@ -1,16 +1,20 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {RouterModule} from "@angular/router";
+import {HttpClientModule} from "@angular/common/http";
 
-import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import {AppComponent} from './app.component';
+import {LoginComponent} from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
-import { SupplierComponent } from './supplier/supplier.component';
-import { BuyerComponent } from './buyer/buyer.component';
-import { UsersComponent } from './users/users.component';
-import { MaterialComponent } from './material/material.component';
-import { PartComponent } from './part/part.component';
-import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
-import { SupplierMaterialRelationComponent } from './supplier-material-relation/supplier-material-relation.component';
+import {SupplierComponent} from './supplier/supplier.component';
+import {BuyerComponent} from './buyer/buyer.component';
+import {UsersComponent} from './users/users.component';
+import {MaterialComponent} from './material/material.component';
+import {PartComponent} from './part/part.component';
+import {PurchaseOrderComponent} from './purchase-order/purchase-order.component';
+import {SupplierMaterialRelationComponent} from './supplier-material-relation/supplier-material-relation.component';
+import {SharedService} from "./shared.service";
+import {NavMenuComponent} from "./nav-menu/nav-menu.component";
 import {TableModule} from "primeng/table";
 import {ButtonModule} from "primeng/button";
 
@@ -24,15 +28,28 @@ import {ButtonModule} from "primeng/button";
     MaterialComponent,
     PartComponent,
     PurchaseOrderComponent,
-    SupplierMaterialRelationComponent
+    SupplierMaterialRelationComponent,
+    NavMenuComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     ReactiveFormsModule,
     TableModule,
-    ButtonModule
+    ButtonModule,
+    RouterModule.forRoot([
+      {path: '', component: LoginComponent, pathMatch: 'full'},
+      {path: 'supplier-master', component: SupplierComponent},
+      {path: 'buyer-master', component: BuyerComponent},
+      {path: 'part-naster', component: PartComponent},
+      {path: 'purchase-order-master', component: PurchaseOrderComponent},
+      {path: 'supplier-material', component: SupplierMaterialRelationComponent},
+      {path: 'material-master', component: SupplierMaterialRelationComponent},
+
+    ]),
   ],
-  providers: [],
+  providers: [SharedService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

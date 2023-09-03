@@ -3,12 +3,12 @@
     <h2>Login</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" formControlName="username">
-        <div *ngIf="loginForm.get('username')?.hasError('required')">
+        <label for="ID">Username:</label>
+        <input type="text" id="ID" formControlName="ID">
+        <div *ngIf="loginForm.get('ID')?.hasError('required')">
           Username is required.
         </div>
-        <div *ngIf="loginForm.get('username')?.hasError('minlength')">
+        <div *ngIf="loginForm.get('ID')?.hasError('minlength')">
           Username must be at least 6 characters long.
         </div>
       </div>

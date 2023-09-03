@@ -1,0 +1,47 @@
+<header>
+  <nav
+    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
+  >
+    <div class="container">
+      <a [routerLink]="['/']" class="navbar-brand">Production Erp</a>
+      <button
+        (click)="toggle()"
+        [attr.aria-expanded]="isExpanded"
+        aria-label="Toggle navigation"
+        class="navbar-toggler"
+        data-target=".navbar-collapse"
+        data-toggle="collapse"
+        type="button"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        [ngClass]="{ show: isExpanded }"
+        class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
+      >
+        <ul class="navbar-nav flex-grow">
+          <li [routerLinkActive]="['link-active']" class="nav-item">
+            <a [routerLink]="['/supplier-master']" class="nav-link text-dark"
+            >Supplier Master</a
+            >
+          </li>
+          <li [routerLinkActive]="['link-active']" class="nav-item">
+            <a [routerLink]="['/buyer-master']" class="nav-link text-dark"
+            >Buyer Master</a
+            >
+          </li>
+          <li [routerLinkActive]="['link-active']" class="nav-item">
+            <a [routerLink]="['/part-naster']" class="nav-link text-dark"
+            >Part Master</a
+            >
+          </li>
+          <li [routerLinkActive]="['link-active']" class="nav-item">
+            <a [routerLink]="['/Supplier-Material']" class="nav-link text-dark"
+            >Supplier Material</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
