@@ -1,0 +1,35 @@
+<!-- part.component.html -->
+<div class="container">
+  <h2>Part Information</h2>
+  <form [formGroup]="partForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="partNumber">Part Number:</label>
+      <input type="text" id="partNumber" formControlName="partNumber">
+      <div *ngIf="partForm.get('partNumber')?.hasError('required')">
+        Part number is required.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="partName">Part Name:</label>
+      <input type="text" id="partName" formControlName="partName">
+      <div *ngIf="partForm.get('partName')?.hasError('required')">
+        Part name is required.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="material1">Material 1:</label>
+      <input type="text" id="material1" formControlName="material1">
+      <div *ngIf="partForm.get('material1')?.hasError('required')">
+        Enter Material 1
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="material2">Material 2:</label>
+      <input type="text" id="material2" formControlName="material2">
+      <div *ngIf="partForm.get('material2')?.hasError('required')">
+        Enter Material 2
+      </div>
+    </div>
+    <button type="submit" [disabled]="!partForm.valid">Submit</button>
+  </form>
+</div>
