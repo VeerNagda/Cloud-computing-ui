@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {FormBuilder,FormGroup,Validators} from "@angular/forms";
-
+import { TableModule } from 'primeng/table';
 interface Supplier{
   name:string;
   address:string;
@@ -15,6 +15,7 @@ interface Supplier{
 })
 export class SupplierComponent {
   supplierForm: FormGroup;
+  supplier: any;
 
   constructor(private formBuilder: FormBuilder) {
     this.supplierForm = this.formBuilder.group({
