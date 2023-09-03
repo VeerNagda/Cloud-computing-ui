@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {FormBuilder,FormGroup,Validators} from "@angular/forms";
-import { TableModule } from 'primeng/table';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',

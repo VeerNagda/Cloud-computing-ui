@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {FormBuilder,FormGroup,Validators} from "@angular/forms";
+import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-buyer',
@@ -8,6 +9,7 @@ import {FormBuilder,FormGroup,Validators} from "@angular/forms";
 })
 export class BuyerComponent {
   buyerForm: FormGroup;
+  buyer: any;
 
   constructor(private formBuilder: FormBuilder) {
     this.buyerForm = this.formBuilder.group({

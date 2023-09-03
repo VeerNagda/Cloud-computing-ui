@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {FormBuilder,FormGroup,Validators} from "@angular/forms";
-
+import { TableModule } from 'primeng/table';
 @Component({
   selector: 'app-material',
   templateUrl: './material.component.html',
@@ -8,6 +8,7 @@ import {FormBuilder,FormGroup,Validators} from "@angular/forms";
 })
 export class MaterialComponent {
   materialForm:FormGroup;
+  material: any;
   constructor(private formBuilder: FormBuilder) {
     this.materialForm = this.formBuilder.group({
       id: ['', Validators.compose([Validators.required])],

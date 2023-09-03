@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {FormBuilder,FormGroup,Validators} from "@angular/forms";
-
+import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-part',
@@ -9,6 +9,7 @@ import {FormBuilder,FormGroup,Validators} from "@angular/forms";
 })
 export class PartComponent {
   partForm:FormGroup;
+  part: any;
 
   constructor(private formBuilder: FormBuilder) {
     this.partForm = this.formBuilder.group({
