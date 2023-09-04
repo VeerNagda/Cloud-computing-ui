@@ -28,9 +28,10 @@ export class LoginComponent {
       this.http.post<MessageModel>(this.sharedService.apiUrl + "userauth/login", this.loginForm.value).subscribe(result => {
         this.message = result;
         if(this.message.status == 200){
-          this.router.navigate(['/material-master']).then(r => {
-            console.log(r);
-          })
+          this.router.navigate(['/material-master']).then(r => console.log(r));
+        }
+        else if (this.message.status == 200){
+          console.log(this.message.message);
         }
       });
 

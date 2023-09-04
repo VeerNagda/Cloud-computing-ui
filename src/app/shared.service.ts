@@ -6,5 +6,6 @@ import { Injectable } from '@angular/core';
 export class SharedService {
 
   apiUrl: string = "https://localhost:5000/api/";
+  //apiUrl: string = "/api/";
 
 }
