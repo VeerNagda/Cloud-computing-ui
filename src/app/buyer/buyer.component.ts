@@ -15,7 +15,7 @@ export class BuyerComponent implements OnInit {
   buyers: BuyerModel[] = []; // Array to store the fetched data
   private message: MessageModel = new MessageModel();
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private sharedService: SharedService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private sharedService: SharedService) {
     this.buyerForm = this.formBuilder.group({
       plantId: ['', Validators.compose([Validators.required])],
       plantName: ['', Validators.compose([Validators.required])],
