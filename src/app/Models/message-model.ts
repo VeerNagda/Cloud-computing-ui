@@ -14,15 +14,15 @@ export class MessageModel {
         this._status = value;
     }
 
-    get Error(): string {
-        return this._Error;
+    get error(): string {
+        return this._error;
     }
 
-    set Error(value: string) {
-        this._Error = value;
+    set error(value: string) {
+        this._error = value;
     }
 
     protected _status: number = 0;
     protected _message: string='';
-    public _Error: string='';
+    public _error: string='';
 }

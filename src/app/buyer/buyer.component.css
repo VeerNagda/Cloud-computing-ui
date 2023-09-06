@@ -36,6 +36,14 @@ input[type="text"] {
   border-radius: 4px;
 }
 
+input[type="number"] {
+  width: 100%;
+  padding:5px 3px;
+
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 
 button[type="submit"] {
   display: block;
@@ -55,4 +63,10 @@ button[type="submit"]:hover {
 button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.disabled-input {
+  background-color: #f0f0f0; /* Change to the desired background color */
+  color: #888; /* Change to the desired text color */
+  pointer-events: none; /* Change cursor to indicate it's not clickable */
 }

@@ -5,7 +5,7 @@ import {HttpClientModule} from "@angular/common/http";
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SupplierComponent} from './supplier/supplier.component';
 import {BuyerComponent} from './buyer/buyer.component';
 import {UsersComponent} from './users/users.component';
@@ -17,6 +17,11 @@ import {SharedService} from "./shared.service";
 import {NavMenuComponent} from "./nav-menu/nav-menu.component";
 import {TableModule} from "primeng/table";
 import {ButtonModule} from "primeng/button";
+import { DialogModule } from 'primeng/dialog';
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {ConfirmationService, MessageService} from "primeng/api";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -37,18 +42,23 @@ import {ButtonModule} from "primeng/button";
     ReactiveFormsModule,
     TableModule,
     ButtonModule,
+    BrowserAnimationsModule,
+    DialogModule,
+    ToastModule,
     RouterModule.forRoot([
       {path: '', component: LoginComponent, pathMatch: 'full'},
       {path: 'supplier-master', component: SupplierComponent},
       {path: 'buyer-master', component: BuyerComponent},
-      {path: 'part-naster', component: PartComponent},
+      {path: 'part-master', component: PartComponent},
       {path: 'purchase-order-master', component: PurchaseOrderComponent},
       {path: 'supplier-material', component: SupplierMaterialRelationComponent},
       {path: 'material-master', component: SupplierMaterialRelationComponent},
 
     ]),
+    ConfirmDialogModule,
+    FormsModule,
   ],
-  providers: [SharedService],
+  providers: [SharedService, ConfirmationService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

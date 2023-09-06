@@ -1,80 +1,234 @@
 <!-- buyer.component.html -->
 <div class="container">
-  <h2>Buyer Information</h2>
-  <form [formGroup]="buyerForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="plantId">Plant ID:</label>
-      <input type="text" id="plantId" formControlName="plantId">
-      <div *ngIf="buyerForm.get('plantId')?.hasError('required')">
-        Plant ID is required.
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="plantName">Plant Name:</label>
-      <input type="text" id="plantName" formControlName="plantName">
-      <div *ngIf="buyerForm.get('plantName')?.hasError('required')">
-        Plant name is required.
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="contactPerson">Contact Person:</label>
-      <input type="text" id="contactPerson" formControlName="contactPerson">
-      <div *ngIf="buyerForm.get('contactPerson')?.hasError('required')">
-        Required.
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="address">Address:</label>
-      <input type="text" id="address" formControlName="address">
-      <div *ngIf="buyerForm.get('address')?.hasError('required')">
-        Address is required.
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="gst">GST:</label>
-      <input type="text" id="gst" formControlName="gst">
-      <div *ngIf="buyerForm.get('gst')?.hasError('required')">
-        GST number is required.
-      </div>
-    </div>
-    <div>
-      <button type="submit" [disabled]="!buyerForm.valid">Submit</button>
-    </div>
-  </form>
+    <h2>Buyer Information</h2>
+    <form [formGroup]="buyerForm" (ngSubmit)="onNewInsert()">
+        <div class="form-group">
+            <label for="plantId">Plant ID:</label>
+            <input type="text" id="plantId" formControlName="plantId">
+            <div *ngIf="buyerForm.get('plantId')?.dirty">
+                <div *ngIf="buyerForm.get('plantId')?.hasError('required')">
+                    Plant ID is required.
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="plantName">Plant Name:</label>
+            <input type="text" id="plantName" formControlName="plantName">
+            <div *ngIf="buyerForm.get('plantName')?.dirty">
+                <div *ngIf="buyerForm.get('plantName')?.hasError('required')">
+                    Plant name is required.
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="contactPerson">Contact Person:</label>
+            <input type="text" id="contactPerson" formControlName="contactPerson">
+        </div>
+        <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" id="address" formControlName="address">
+        </div>
+        <div class="form-group">
+            <label for="gst">GST:</label>
+            <input type="text" id="gst" formControlName="gst">
+            <div *ngIf="buyerForm.get('gst')?.dirty">
+                <div *ngIf="buyerForm.get('gst')?.hasError('pattern')">
+                    Enter valid GST Number
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="gst">Contact Number:</label>
+            <input type="text" id="contactNumber" name="contactNumber" formControlName="contactNumber">
+            <div *ngIf="buyerForm.get('contactNumber')?.dirty">
+                <div *ngIf="buyerForm.get('contactNumber')?.hasError('pattern')">
+                    Only numbers are allowed.
+                </div>
+
+                <div *ngIf="buyerForm.get('contactNumber')?.hasError('minlength') && !buyerForm.get('contactNumber')?.hasError('pattern')">
+                    Minimum length is 10 characters.
+                </div>
+                <div *ngIf="buyerForm.get('contactNumber')?.hasError('maxlength') && !buyerForm.get('contactNumber')?.hasError('pattern')">
+                    Maximum length is 10 characters.
+                </div>
+            </div>
+        </div>
+        <div>
+            <button type="submit" [disabled]="!buyerForm.valid">Submit</button>
+        </div>
+    </form>
 </div>
 <br>
 <div>
-  <h2>Data </h2>
-  <p-table [value]="buyers" [tableStyle]="{ 'min-width': '50rem' }" class="table">
-    <ng-template pTemplate="caption">
-      <div class="flex align-items-center justify-content-between">
-        <h4>Buyer</h4>
-      </div>
-    </ng-template>
+    <h2>Data</h2>
+
+    <!-- Add PrimeNG Table with selection, edit, and delete functionality -->
+    <p-table [value]="buyers" [tableStyle]="{ 'min-width': '50rem' }" class="table" [selection]="selectedBuyer">
+        <ng-template pTemplate="caption">
+            <div class="align-items-center justify-content-between">
+                <h4>Buyer</h4>
+            </div>
+            <button pButton type="button" label="Delete" [disabled]="selectedBuyers.length === 0" (click)="deleteMultipleBuyer()"></button>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox (click)="onSelectAllChange($event)"></p-tableHeaderCheckbox>
+                </th>
+                <th>Edit</th>
+                <th>Delete</th>
+                <th>Plant ID</th>
+                <th>Plant Name</th>
+                <th>Contact Person</th>
+                <th>Address</th>
+                <th>GST</th>
+                <th>Contact Number</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-buyer>
+            <tr [class]="{'selected-row': isSelected(buyer)}">
+                <td>
+                    <p-tableCheckbox [value]="buyer" (click)="onBuyerSelectionChange(buyer)" ></p-tableCheckbox>
+                </td>
+                <td>
+                    <button pButton type="button" label="Edit" (click)="updateBuyer(buyer)"></button>
+                </td>
+                <td>
+                    <button pButton type="button" label="Delete" (click)="deleteBuyer(buyer)"></button>
+                </td>
+                <td>{{ buyer.plantId }}</td>
+                <td>{{ buyer.plantName }}</td>
+                <td>{{ buyer.contactPerson }}</td>
+                <td>{{ buyer.address }}</td>
+                <td>{{ buyer.gst }}</td>
+                <td>{{ buyer.contactNumber }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{ buyers ? buyers.length : 0 }} products.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+
+<p-dialog
+        [(visible)]="displayUpdateConfirmationDialog"
+        header="Confirmation"
+        showEffect="fade"
+        [modal]=true
+        [style]="{ width: '300px' }"
+>
+    <p>Are you sure you want to delete this buyer?</p>
+    <p-footer>
+        <button pButton type="button" label="Yes" (click)="confirmUpdate()"></button>
+        <button pButton type="button" label="No" (click)="cancelUpdate()"></button>
+    </p-footer>
+</p-dialog>
+
+
+<!-- PrimeNG Dialog -->
+<p-dialog [(visible)]="displayUpdateDialog" [modal]="true" [style]="{'width': '70%', 'height': '70%'}">
     <ng-template pTemplate="header">
-      <tr>
-        <th>Plant ID</th>
-        <th>Plant Name</th>
-        <th> Contact Person</th>
-        <th>Address</th>
-        <th> GST</th>
-      </tr>
+        <h3>Update Buyer Information</h3>
     </ng-template>
-    <ng-template pTemplate="body" let-buyer>
-      <tr>
-        <td>{{ buyer.plantId }}</td>
-        <td>{{ buyer.plantName }}</td>
-        <td>{{ buyer.contactPerson }}</td>
-        <td>{{ buyer.address }}</td>
-        <td>{{buyer.gst}}</td>
-      </tr>
+
+    <ng-template pTemplate="content">
+        <!-- Update form -->
+        <form [formGroup]="updateForm">
+            <div class="p-fluid">
+                <div class="p-field">
+                    <label for="updatePlantId">Update Plant ID</label>
+                    <input
+                            id="updatePlantId"
+                            type="text"
+                            formControlName="plantId"
+                            [disabled]="true"
+                            class="disabled-input"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <label for="updatePlantName">Update Plant Name</label>
+                    <input
+                            id="updatePlantName"
+                            type="text"
+                            formControlName="plantName"
+                    />
+
+                    <div *ngIf="updateForm.get('plantName')?.dirty">
+                        <div *ngIf="updateForm.get('plantName')?.hasError('required')">
+                            Plant name is required.
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="p-field">
+                    <label for="updateContactPerson">Update Contact Person</label>
+                    <input
+                            id="updateContactPerson"
+                            type="text"
+                            formControlName="contactPerson"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <label for="updateAddress">Update Address</label>
+                    <input
+                            id="updateAddress"
+                            type="text"
+                            formControlName="address"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <label for="updateGst">Update GST</label>
+                    <input
+                            id="updateGst"
+                            type="text"
+                            formControlName="gst"
+                    />
+                    <div *ngIf="updateForm.get('gst')?.dirty">
+                        <div *ngIf="updateForm.get('gst')?.hasError('pattern')">
+                            Enter valid GST Number
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-field">
+                    <label for="updateContactNumber">Update Contact Number</label>
+                    <input
+                            id="updateContactNumber"
+                            type="text"
+                            formControlName="contactNumber"
+                    />
+                    <div *ngIf="updateForm.get('contactNumber')?.dirty">
+                        <div *ngIf="updateForm.get('contactNumber')?.hasError('pattern')">
+                            Only numbers are allowed.
+                        </div>
+
+                        <div *ngIf="updateForm.get('contactNumber')?.hasError('minlength') && !updateForm.get('contactNumber')?.hasError('pattern')">
+                            Minimum length is 10 characters.
+                        </div>
+                        <div *ngIf="updateForm.get('contactNumber')?.hasError('maxlength') && !updateForm.get('contactNumber')?.hasError('pattern')">
+                            Maximum length is 10 characters.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </ng-template>
-    <ng-template pTemplate="summary">
-      <div class="flex align-items-center justify-content-between">
-        In total there are {{buyers ? buyers.length : 0 }} products.
-      </div>
+
+    <ng-template pTemplate="footer">
+        <p-button (click)="confirmUpdate()" icon="pi pi-check" label="Confirm"
+                  [disabled]="!updateForm.valid"></p-button>
+        <p-button (click)="cancelUpdate()" icon="pi pi-times" label="Cancel" class="p-button-danger"></p-button>
     </ng-template>
-  </p-table>
-</div>
-<div>
-</div>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+<p-toast></p-toast>
+
+

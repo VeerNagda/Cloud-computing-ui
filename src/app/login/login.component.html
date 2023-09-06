@@ -1,32 +1,38 @@
 <div class="login-container">
-  <div class="login-box">
-    <h2>Login</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="ID">Username:</label>
-        <input type="text" id="ID" formControlName="ID">
-        <div *ngIf="loginForm.get('ID')?.hasError('required')">
-          Username is required.
-        </div>
-        <div *ngIf="loginForm.get('ID')?.hasError('minlength')">
-          Username must be at least 6 characters long.
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" formControlName="password">
-        <div *ngIf="loginForm.get('password')?.hasError('required')">
-          Password is required.
-        </div>
-        <div *ngIf="loginForm.get('password')?.hasError('minlength')">
-          Password must be at least 8 characters long.
-        </div>
-      </div>
-      <div>
-        <button type="submit" [disabled]="!loginForm.valid">Login</button>
-      </div>
+    <div class="login-box">
+        <h2>Login</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="ID">Username:</label>
+                <input type="text" id="ID" formControlName="ID">
+                <div *ngIf="loginForm.get('ID')?.dirty">
+                    <div *ngIf="loginForm.get('ID')?.hasError('required')">
+                        Username is required.
+                    </div>
+
+                    <div *ngIf="loginForm.get('ID')?.hasError('minlength')">
+                        Username must be at least 6 characters long.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" formControlName="password">
+                <div *ngIf="loginForm.get('password')?.dirty">
+                    <div *ngIf="loginForm.get('password')?.hasError('required')">
+                        Password is required.
+                    </div>
+                    <div *ngIf="loginForm.get('password')?.hasError('minlength')">
+                        Password must be at least 8 characters long.
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="submit" [disabled]="!loginForm.valid">Login</button>
+            </div>
 
 
-    </form>
-  </div>
+        </form>
+    </div>
 </div>
+<p-toast></p-toast>
