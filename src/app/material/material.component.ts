@@ -115,6 +115,7 @@ export class MaterialComponent implements OnInit {
   }
 
   cancelUpdate() {
+    this.displayUpdateDialog= false;
     this.selectedMaterial = null; // Clear the selected material
   }
 

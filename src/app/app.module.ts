@@ -22,6 +22,8 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {ConfirmationService, MessageService} from "primeng/api";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule } from 'primeng/toast';
+import {DropdownModule} from "primeng/dropdown";
+import {authGuard} from "./auth.guard";
 
 @NgModule({
   declarations: [
@@ -36,28 +38,29 @@ import { ToastModule } from 'primeng/toast';
     SupplierMaterialRelationComponent,
     NavMenuComponent
   ],
-  imports: [
-    HttpClientModule,
-    BrowserModule,
-    ReactiveFormsModule,
-    TableModule,
-    ButtonModule,
-    BrowserAnimationsModule,
-    DialogModule,
-    ToastModule,
-    RouterModule.forRoot([
-      {path: '', component: LoginComponent, pathMatch: 'full'},
-      {path: 'supplier-master', component: SupplierComponent},
-      {path: 'buyer-master', component: BuyerComponent},
-      {path: 'part-master', component: PartComponent},
-      {path: 'purchase-order-master', component: PurchaseOrderComponent},
-      {path: 'supplier-materials', component: SupplierMaterialRelationComponent},
-      {path: 'material-master', component: MaterialComponent},
+    imports: [
+        HttpClientModule,
+        BrowserModule,
+        ReactiveFormsModule,
+        TableModule,
+        ButtonModule,
+        BrowserAnimationsModule,
+        DialogModule,
+        ToastModule,
+        RouterModule.forRoot([
+            {path: '', component: LoginComponent, pathMatch: 'full'},
+            {path: 'supplier-master', component: SupplierComponent,  canActivate: [authGuard]},
+            {path: 'buyer-master', component: BuyerComponent,  canActivate: [authGuard]},
+            {path: 'part-master', component: PartComponent,  canActivate: [authGuard]},
+            {path: 'purchase-order-master', component: PurchaseOrderComponent,  canActivate: [authGuard]},
+            {path: 'supplier-materials', component: SupplierMaterialRelationComponent,  canActivate: [authGuard]},
+            {path: 'material-master', component: MaterialComponent,  canActivate: [authGuard]},
 
-    ]),
-    ConfirmDialogModule,
-    FormsModule,
-  ],
+        ]),
+        ConfirmDialogModule,
+        FormsModule,
+        DropdownModule,
+    ],
   providers: [SharedService, ConfirmationService, MessageService],
   bootstrap: [AppComponent]
 })

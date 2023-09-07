@@ -59,6 +59,7 @@ export class BuyerComponent implements OnInit {
 
   updateBuyer(buyer: BuyerModel) {
     // Assign the selected buyer to the form for editing
+
     this.updateForm.setValue({
       plantId: buyer.plantId,
       plantName: buyer.plantName,
