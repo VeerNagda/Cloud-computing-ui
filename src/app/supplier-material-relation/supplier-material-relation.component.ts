@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder,FormGroup,Validators} from "@angular/forms";
 
 @Component({
-  selector: 'app-supplier-material-relation',
+  selector: 'app-supplier-materials-relation',
   templateUrl: './supplier-material-relation.component.html',
   styleUrls: ['./supplier-material-relation.component.css']
 })

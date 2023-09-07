@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {FormBuilder,FormGroup,Validators} from "@angular/forms";
-import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-part',
@@ -26,7 +25,7 @@ export class PartComponent {
       const formData = this.partForm.value;
       console.log(formData);
 
-      // Here, you can save the material data, send it to an API, etc.
+      // Here, you can save the materials data, send it to an API, etc.
     }
   }
 }

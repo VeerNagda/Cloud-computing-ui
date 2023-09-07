@@ -11,3 +11,8 @@ body{
 }
 
 
+.disabled-input {
+  background-color: #f0f0f0; /* Change to the desired background color */
+  color: #888; /* Change to the desired text color */
+  pointer-events: none; /* Change cursor to indicate it's not clickable */
+}

@@ -51,8 +51,8 @@ import { ToastModule } from 'primeng/toast';
       {path: 'buyer-master', component: BuyerComponent},
       {path: 'part-master', component: PartComponent},
       {path: 'purchase-order-master', component: PurchaseOrderComponent},
-      {path: 'supplier-material', component: SupplierMaterialRelationComponent},
-      {path: 'material-master', component: SupplierMaterialRelationComponent},
+      {path: 'supplier-materials', component: SupplierMaterialRelationComponent},
+      {path: 'material-master', component: MaterialComponent},
 
     ]),
     ConfirmDialogModule,
