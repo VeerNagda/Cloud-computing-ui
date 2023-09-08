@@ -68,7 +68,7 @@ export class BuyerComponent implements OnInit {
       gst: buyer.gst,
       contactNumber: buyer.contactNumber.toString(), // Convert to string if necessary
     });
-    // Show the edit dialog
+    // Show the edit dialog box
     this.updateForm.get('plantId')?.disable();
     this.displayUpdateDialog = true;
   }
@@ -96,7 +96,7 @@ export class BuyerComponent implements OnInit {
 
 
   confirmUpdate() {
-    this.updateForm.get('plantId')?.disable();
+    this.updateForm.get('plantId')?.enable();
     this.confirmationService.confirm({
       message: 'Do you wish to edit',
       header: 'Confirmation',
@@ -155,13 +155,15 @@ export class BuyerComponent implements OnInit {
       message: 'Do you wish to delete buyers ' + ids,
       header: 'Confirmation',
       accept: () => {
+        // for receiving the data  from the server. Subscribe to wait for the data and Observe to get the data from thesubscribe
         this.http.post<MessageModel>(this.sharedService.apiUrl + "buyer-master/delete-multiple-buyer", this.selectedBuyers).subscribe(result => {
           this.message = result;
+          // 200 means accepted/ working properly/ request was successful
           if (this.message.status == 200) {
             this.messageService.add({severity: 'success', summary: 'Delete', detail: this.message.message});
-            this.selectedBuyers = []; // Clear the selected buyer
+            this.selectedBuyers = []; // Send data and thus will Clear the selected buyer
             this.fetchBuyerData();
-            this.displayUpdateDialog = false;
+            // this.displayUpdateDialog = false;
           } else if (this.message.status == 500) {
             this.messageService.add({severity: 'error', summary: 'Error', detail: this.message.message});
           }
@@ -171,6 +173,7 @@ export class BuyerComponent implements OnInit {
   }
 }
 
+// using this to send and receive data to the server
 interface BuyerModel {
   plantId: string;
   plantName: string;

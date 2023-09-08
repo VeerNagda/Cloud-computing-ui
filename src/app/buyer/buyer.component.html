@@ -68,11 +68,13 @@
             <div class="align-items-center justify-content-between">
                 <h4>Buyer</h4>
             </div>
+<!--          [disabled]="selectedBuyers.length === 0" (click)="deleteMultipleBuyer() for the deletion button-->
             <button pButton type="button" label="Delete" [disabled]="selectedBuyers.length === 0" (click)="deleteMultipleBuyer()"></button>
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
                 <th style="width: 3rem">
+<!--                  the select all wala box-->
                     <p-tableHeaderCheckbox (click)="onSelectAllChange()"></p-tableHeaderCheckbox>
                 </th>
                 <th>Edit</th>
@@ -85,6 +87,7 @@
                 <th>Contact Number</th>
             </tr>
         </ng-template>
+<!--      Let is kind of foreach loop-->
         <ng-template pTemplate="body" let-buyer>
             <tr [class]="{'selected-row': isSelected(buyer)}">
                 <td>
@@ -113,7 +116,7 @@
 </div>
 
 
-
+<!--The box that opens after you click edit is this-->
 <!-- PrimeNG Dialog -->
 <p-dialog [(visible)]="displayUpdateDialog" [modal]="true" [style]="{'width': '70%', 'height': '70%'}">
     <ng-template pTemplate="header">
@@ -212,8 +215,7 @@
         <p-button (click)="cancelUpdate()" icon="pi pi-times" label="Cancel" class="p-button-danger"></p-button>
     </ng-template>
 </p-dialog>
-
+<!--dabbe me dabbe ka dabba (Confirmation box)-->
 <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+<!--dabbe me dabbe ka dabba ke baad ane wala error(red box) or success(green box) or warn(yellow box)-->
 <p-toast></p-toast>
-
-

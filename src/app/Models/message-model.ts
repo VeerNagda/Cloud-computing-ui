@@ -1,3 +1,4 @@
+// using this to receive messages from the server
 export class MessageModel {
     get message(): string {
         return this._message;
