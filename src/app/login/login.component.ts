@@ -5,6 +5,7 @@ import {SharedService} from "../shared.service";
 import {MessageModel} from "../Models/message-model";
 import {Router} from "@angular/router";
 import {MessageService} from "primeng/api";
+import {CookieService} from "ngx-cookie-service";
 
 
 @Component({
@@ -16,7 +17,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   private message: MessageModel = new MessageModel();
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private sharedService: SharedService, private router: Router, private messageService: MessageService) {
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private sharedService: SharedService, private router: Router, private messageService: MessageService, private cookieService: CookieService) {
     this.loginForm = this.formBuilder.group({
       ID: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
@@ -31,6 +32,7 @@ export class LoginComponent {
         if(this.message.status == 200){
           this.messageService.add({severity: 'success', summary: 'Success', detail: this.message.message});
           setTimeout(()=>{
+            this.cookieService.set("role",this.message.error, {sameSite: "Lax", path:"/"})
             this.router.navigate(['/buyer-master']).then(r => console.log(r));
           }, 1000);
         }

@@ -23,7 +23,9 @@ import {ConfirmationService, MessageService} from "primeng/api";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule } from 'primeng/toast';
 import {DropdownModule} from "primeng/dropdown";
-import {authGuard} from "./auth.guard";
+import {authGuard} from "./gaurd/auth.guard";
+import { CookieService } from 'ngx-cookie-service';
+
 
 @NgModule({
   declarations: [
@@ -61,7 +63,7 @@ import {authGuard} from "./auth.guard";
         FormsModule,
         DropdownModule,
     ],
-  providers: [SharedService, ConfirmationService, MessageService],
+  providers: [SharedService, ConfirmationService, MessageService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
