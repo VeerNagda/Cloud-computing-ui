@@ -1,34 +1,61 @@
 <div class="container">
   <h2>Supplier Information</h2>
-  <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()"> <div class="form-group">
+  <form [formGroup]="supplierForm" (ngSubmit)="onNewInsert()">
+<!--  <div class="form-group">
       <label for="name">Name:</label>
       <input type="text" id="name" formControlName="name">
     <div *ngIf="supplierForm.get('name')?.hasError('required')">
       Name is required.
     </div>
+    </div>-->
+    <div class="form-group">
+      <label for="name"> Name :</label>
+      <input type="text" id="name" formControlName="name">
+      <div *ngIf="supplierForm.get('name')?.dirty">
+        <div *ngIf="supplierForm.get('name')?.hasError('required')">
+          Supplier Name is required.
+        </div>
+      </div>
     </div>
+
     <div class="form-group">
       <label for="address">Address:</label>
       <input type="text" id="address" formControlName="address">
-      <div *ngIf="supplierForm.get('address')?.hasError('required')">
-        Address is required.
+      <div *ngIf="supplierForm.get('address')?.dirty">
+        <div *ngIf="supplierForm.get('address')?.hasError('required')">
+          Address Required
+        </div>
       </div>
     </div>
+
     <div class="form-group">
-      <label for="contactNumber">Contact Number:</label>
-      <input type="text" id="contactNumber" formControlName="contactNumber">
-      <div *ngIf="supplierForm.get('contactNumber')?.hasError('required')">
-        Contact number is required.
+      <label for="gst">Contact Number:</label>
+      <input type="text" id="contactNumber" name="contactNumber" formControlName="contactNumber">
+      <div *ngIf="supplierForm.get('contactNumber')?.dirty">
+        <div *ngIf="supplierForm.get('contactNumber')?.hasError('pattern')">
+          Only numbers are allowed.
+        </div>
+
+        <div *ngIf="supplierForm.get('contactNumber')?.hasError('minlength') && !supplierForm.get('contactNumber')?.hasError('pattern')">
+          Minimum length is 10 characters.
+        </div>
+        <div *ngIf="supplierForm.get('contactNumber')?.hasError('maxlength') && !supplierForm.get('contactNumber')?.hasError('pattern')">
+          Maximum length is 10 characters.
+        </div>
       </div>
     </div>
+
     <div class="form-group">
       <label for="gst">GST:</label>
       <input type="text" id="gst" formControlName="gst">
-      <div *ngIf="supplierForm.get('gst')?.hasError('required')">
-        GST number is required.
+      <div *ngIf="supplierForm.get('gst')?.dirty">
+        <div *ngIf="supplierForm.get('gst')?.hasError('pattern')">
+          Enter valid GST Number
+        </div>
       </div>
     </div>
     <div>
+
       <button type="submit" [disabled]="!supplierForm.valid">Submit</button>
     </div>
   </form>
@@ -37,22 +64,38 @@
 </div>
 <div>
   <h2>Data </h2>
-  <p-table [value]="supplier" [tableStyle]="{ 'min-width': '50rem' }" class="table">
+  <p-table [value]="suppliers" [tableStyle]="{ 'min-width': '50rem' }" class="table">
     <ng-template pTemplate="caption">
-      <div class="flex align-items-center justify-content-between">
+      <div class="align-items-center justify-content-between">
         <h4>Suppliers</h4>
       </div>
+      <!--          [disabled]="selectedBuyers.length === 0" (click)="deleteMultipleBuyer() for the deletion button-->
+      <button pButton type="button" label="Delete" [disabled]="selectedSuppliers.length === 0" (click)="deleteMultipleSupplier()"></button>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
+        <th style="width: 3rem">
+          <!--                  the select all wala box-->
+          <p-tableHeaderCheckbox (click)="onSelectAllChange()"></p-tableHeaderCheckbox>
+        </th>
         <th>Name</th>
         <th>Address</th>
         <th>Contact Number</th>
         <th>GST</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-users>
-      <tr>
+
+    <ng-template pTemplate="body" let-supplier>
+      <tr [class]="{'selected-row': isSelected(supplier)}">
+        <td>
+          <p-tableCheckbox [value]="supplier" (click)="onSupplierSelectionChange(supplier)" ></p-tableCheckbox>
+        </td>
+        <td>
+          <button pButton type="button" label="Edit" (click)="updateSupplier(supplier)"></button>
+        </td>
+        <td>
+          <button pButton type="button" label="Delete" (click)="deleteSupplier(supplier)"></button>
+        </td>
         <td>{{ supplier.name }}</td>
         <td>{{ supplier.address }}</td>
         <td>{{ supplier.contactNumber }}</td>
@@ -61,11 +104,94 @@
     </ng-template>
     <ng-template pTemplate="summary">
       <div class="flex align-items-center justify-content-between">
-        In total there are {{supplier ? supplier.length : 0 }} products.
+        In total there are {{ suppliers ? suppliers.length : 0 }} products.
       </div>
     </ng-template>
   </p-table>
 </div>
-<div>
-</div>
 
+
+<!--The box that opens after you click edit is this-->
+<!-- PrimeNG Dialog -->
+<p-dialog [(visible)]="displayUpdateDialog" [modal]="true" [style]="{'width': '70%', 'height': '70%'}">
+  <ng-template pTemplate="header">
+    <h3>Update Buyer Information</h3>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <!-- Update form -->
+    <form [formGroup]="updateForm">
+      < class="p-fluid">
+        <div class="p-field">
+          <label for="updateName">Update Name</label>
+          <input
+            id="updateName"
+            type="text"
+            formControlName="name"
+            class="disabled-input"
+          />
+          <div *ngIf="updateForm.get('name')?.dirty">
+            <div *ngIf="updateForm.get('name')?.hasError('required')">
+              Supplier name is required.
+            </div>
+          </div>
+
+        </div>
+
+        <div class="p-field">
+          <label for="updateAddress">Update Address</label>
+          <input
+            id="updateAddress"
+            type="text"
+            formControlName="address"
+          />
+        </div>
+
+
+
+        <div class="p-field">
+          <label for="updateContactNumber">Update Contact Number</label>
+          <input
+            id="updateContactNumber"
+            type="text"
+            formControlName="contactNumber"
+          />
+          <div *ngIf="updateForm.get('contactNumber')?.dirty">
+            <div *ngIf="updateForm.get('contactNumber')?.hasError('pattern')">
+              Only numbers are allowed.
+            </div>
+
+            <div *ngIf="updateForm.get('contactNumber')?.hasError('minlength') && !updateForm.get('contactNumber')?.hasError('pattern')">
+              Minimum length is 10 characters.
+            </div>
+            <div *ngIf="updateForm.get('contactNumber')?.hasError('maxlength') && !updateForm.get('contactNumber')?.hasError('pattern')">
+              Maximum length is 10 characters.
+            </div>
+          </div>
+        </div>
+      <div class="p-field">
+        <label for="updateGst">Update GST</label>
+        <input
+          id="updateGst"
+          type="text"
+          formControlName="gst"
+        />
+        <div *ngIf="updateForm.get('gst')?.dirty">
+          <div *ngIf="updateForm.get('gst')?.hasError('pattern')">
+            Enter valid GST Number
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <p-button (click)="confirmUpdate()" icon="pi pi-check" label="Confirm"
+              [disabled]="!updateForm.valid"></p-button>
+    <p-button (click)="cancelUpdate()" icon="pi pi-times" label="Cancel" class="p-button-danger"></p-button>
+  </ng-template>
+</p-dialog>
+<!--dabbe me dabbe ka dabba (Confirmation box)-->
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+<!--dabbe me dabbe ka dabba ke baad ane wala error(red box) or success(green box) or warn(yellow box)-->
+<p-toast></p-toast>
