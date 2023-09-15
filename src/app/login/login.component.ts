@@ -33,6 +33,7 @@ export class LoginComponent {
           this.messageService.add({severity: 'success', summary: 'Success', detail: this.message.message});
           setTimeout(()=>{
             this.cookieService.set("role",this.message.error, {sameSite: "Lax", path:"/"})
+            SharedService.loggedIn = true;
             this.router.navigate(['/buyer-master']).then(r => console.log(r));
           }, 1000);
         }

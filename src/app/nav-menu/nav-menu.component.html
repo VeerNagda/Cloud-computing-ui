@@ -40,6 +40,9 @@
             >Material Master</a
             >
           </li>
+          <li>
+            <button *ngIf="SharedService.loggedIn" (click)="logOut()"> Log out</button>
+          </li>
         </ul>
       </div>
     </div>

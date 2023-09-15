@@ -1,16 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder,FormGroup,Validators} from "@angular/forms";
-import { TableModule } from 'primeng/table';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {MessageModel} from "../Models/message-model";
 import {SharedService} from "../shared.service";
 import {ConfirmationService, MessageService} from "primeng/api";
 
-interface Supplier{
-  name:string;
-  address:string;
+interface Supplier {
+  name: string;
+  address: string;
   contactNumber: string;
-  gst:string;
+  gst: string;
 }
 
 @Component({
@@ -37,7 +36,6 @@ export class SupplierComponent implements OnInit {
   //   });
 
 
-
   // onSubmit() {
   //   if (this.supplierForm.valid) {
   //     const formData = this.supplierForm.value;
@@ -48,11 +46,12 @@ export class SupplierComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private sharedService: SharedService, private confirmationService: ConfirmationService, private messageService: MessageService) {
     this.supplierForm = this.formBuilder.group({
+      id: ['', Validators.compose([Validators.required])],
       name: ['', Validators.compose([Validators.required])],
       address: ['', Validators.compose([Validators.required])],
-      contactNumber: ['', Validators.compose([Validators.required, Validators.maxLength(10), Validators.minLength(10)])],
+      contactNumber: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9]+$/), Validators.maxLength(10), Validators.minLength(10)])],
       gst: ['', Validators.pattern("^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$")],
-       });
+    });
     this.updateForm = this.formBuilder.group(Object.assign({}, this.supplierForm.value));
   }
 
@@ -86,13 +85,14 @@ export class SupplierComponent implements OnInit {
     // Assign the selected supplier to the form for editing
 
     this.updateForm.setValue({
+      id: supplier.id,
       name: supplier.name,
       address: supplier.address,
       contactNumber: supplier.contactNumber.toString(), // Convert to string if necessary
       gst: supplier.gst,
     });
     // Show the edit dialog box
-    this.updateForm.get('name')?.disable();
+    this.updateForm.get('id')?.disable();
     this.displayUpdateDialog = true;
   }
 
@@ -119,24 +119,26 @@ export class SupplierComponent implements OnInit {
 
 
   confirmUpdate() {
-    this.updateForm.get('name')?.enable();
-    this.confirmationService.confirm({
-      message: 'Do you wish to edit',
-      header: 'Confirmation',
-      accept: () => {
-        this.http.post<MessageModel>(this.sharedService.apiUrl + "supplier-master/edit-supplier", this.updateForm.value).subscribe(result => {
-          this.message = result;
-          if (this.message.status == 200) {
-            this.messageService.add({severity: 'success', summary: 'Updated', detail: this.message.message});
-            this.fetchSupplierData();
-            this.displayUpdateDialog = false;
-          } else if (this.message.status == 500) {
-            this.messageService.add({severity: 'error', summary: 'Error', detail: this.message.message});
-          }
-        });
-      },
-    })
-    this.selectedSupplier = null; // Clear the selected supplier
+    this.updateForm.get('id')?.enable();
+    if (this.updateForm.valid) {
+      this.confirmationService.confirm({
+        message: 'Do you wish to edit',
+        header: 'Confirmation',
+        accept: () => {
+          this.http.post<MessageModel>(this.sharedService.apiUrl + "supplier-master/edit-supplier", this.updateForm.value).subscribe(result => {
+            this.message = result;
+            if (this.message.status == 200) {
+              this.messageService.add({severity: 'success', summary: 'Updated', detail: this.message.message});
+              this.fetchSupplierData();
+              this.displayUpdateDialog = false;
+            } else if (this.message.status == 500) {
+              this.messageService.add({severity: 'error', summary: 'Error', detail: this.message.message});
+            }
+          });
+        },
+      })
+      this.selectedSupplier = null; // Clear the selected supplier
+    }
 
   }
 
@@ -198,6 +200,7 @@ export class SupplierComponent implements OnInit {
 
 // using this to send and receive data to the server
 interface SupplierModel {
+  id: string;
   name: string;
   address: string;
   contactNumber: number;
